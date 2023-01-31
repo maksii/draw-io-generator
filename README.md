@@ -2,12 +2,13 @@
 A console application in C# 7 that takes a Github URL as input and fetches information about the folder at that URL through the Github API. The program creates a list of files in the folder, including their names and download URLs, and saves that information as an XML document that can be consumed by draw.io
 
 # How to Use
-Clone the repository to your local machine
-Open the solution in Visual Studio
-Build the solution
-Run the program from the command line and enter the Github URL in the following format:
+- Clone the repository to your local machine
+- Open the solution in Visual Studio
+- Build the solution
+- Run the program from the command line and enter the Github URL in the following format:
 https://github.com/{username}/{repository name}/tree/{branch}/{target directory}
-The program will fetch information about the folder, create a list of files, and save that information as an XML document.
+- The program will fetch information about the folder, create a list of files, and save that information as an XML document.
+
 # XML Document Structure
 The resulting XML document starts with <mxlibrary> and ends with </mxlibrary>. The contents of the document consist of an array of objects, each with the following properties:
 
