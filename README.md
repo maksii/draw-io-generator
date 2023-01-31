@@ -17,11 +17,16 @@ h: the height of the image
 title: the name of the image
 aspect: the aspect ratio of the image
 
-#Method for Transforming File Names
+# Method for Transforming File Names
 The method TransformFileName takes a string (the file name) as input and returns a more user-friendly version of the name. The method adds spaces for camel case wording, removes the file extension from the string, replaces dashes with spaces, and removes repeatable patterns(TBD) to leave only the unique part of the name.
 
+# Example
+![image](https://user-images.githubusercontent.com/1761348/215716372-43a247d9-1d5f-49da-8ac8-8708070b4be7.png)
+![image](https://user-images.githubusercontent.com/1761348/215716495-042848f2-bdc0-4451-a82b-b292b5f7b629.png)
+
+
 # Note
-This code is designed to work with Github API and the structure of the API may change in the future, causing this code to become outdated.
+This code is designed to work with Github API and the structure of the API may change in the future, causing this code to become outdated. Same as current draw.io library format hardcoded and may require adjustments on future.
 
 # Contributing
 If you would like to contribute to this project, please fork the repository and make a pull request with your changes. Before making a pull request, please make sure that your changes adhere to the coding style used in the project and that all tests pass.
