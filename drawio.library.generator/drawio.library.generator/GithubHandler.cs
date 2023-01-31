@@ -1,8 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.IO;
 
 namespace drawio.library.generator
 {
@@ -13,36 +11,34 @@ namespace drawio.library.generator
             var fileList = new List<Image>();
             string baseUrl = $"https://api.github.com/repos/{username}/{repository}/contents/{targetDirectory}";
 
-            using (var client = new HttpClient())
+            using var client = new HttpClient();
+            
+            client.DefaultRequestHeaders.Add("User-Agent", "GitHubImageList");
+            var response = client.GetAsync(baseUrl).Result;
+            if (!response.IsSuccessStatusCode) return fileList;
+                
+            var content = response.Content.ReadAsStringAsync().Result;
+            var json = JArray.Parse(content);
+            foreach (var item in json)
             {
-                client.DefaultRequestHeaders.Add("User-Agent", "GitHubImageList");
-                var response = client.GetAsync(baseUrl).Result;
-                if (response.IsSuccessStatusCode)
+                if (item["type"].Value<string>() == "file")
                 {
-                    var content = response.Content.ReadAsStringAsync().Result;
-                    var json = JArray.Parse(content);
-                    foreach (var item in json)
-                    {
-                        if (item["type"].Value<string>() == "file")
-                        {
                             
-                            var file = new Image
-                            {
-                                DownloadUrl = item["download_url"].Value<string>(),
-                                Name = item["name"].Value<string>()
-                            };
-                            if (IsImage(file.Name))
-                            {
-                                file.Name = FormatFileName(file.Name);
-                                fileList.Add(file);
-                            }
-                        }
-                        else if (item["type"].Value<string>() == "dir")
-                        {
-                            var subDirectory = item["path"].Value<string>();
-                            fileList.AddRange(GetFiles(username, repository, subDirectory));
-                        }
+                    var file = new Image
+                    {
+                        DownloadUrl = item["download_url"].Value<string>(),
+                        Name = item["name"].Value<string>()
+                    };
+                    if (IsImage(file.Name))
+                    {
+                        file.Name = FormatFileName(file.Name);
+                        fileList.Add(file);
                     }
+                }
+                else if (item["type"].Value<string>() == "dir")
+                {
+                    var subDirectory = item["path"].Value<string>();
+                    fileList.AddRange(GetFiles(username, repository, subDirectory));
                 }
             }
 
@@ -95,11 +91,5 @@ namespace drawio.library.generator
             var extension = name.Split('.').Last();
             return extension == "svg" || extension == "png";
         }
-    }
-
-    public class Image
-    {
-        public string DownloadUrl { get; set; }
-        public string Name { get; set; }
     }
 }
