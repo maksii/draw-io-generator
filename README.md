@@ -1,5 +1,5 @@
 # Draw-IO Library generator(Github API Folder Parser)
-A console application in C# 7 that takes a Github URL as input and fetches information about the folder at that URL through the Github API. The program creates a list of files in the folder, including their names and download URLs, and saves that information as an XML document that can be consumed by draw.io
+A console application in .Net 7 that takes a Github URL as input and fetches information about the folder at that URL through the Github API. The program creates a list of files in the folder, including their names and download URLs, and saves that information as an XML document that can be consumed by draw.io
 
 # How to Use
 - Clone the repository to your local machine
@@ -7,16 +7,17 @@ A console application in C# 7 that takes a Github URL as input and fetches infor
 - Build the solution
 - Run the program from the command line and enter the Github URL in the following format:
 `https://github.com/{username}/{repository name}/tree/{branch}/{target directory}`
-- The program will fetch information about the folder, create a list of files, and save that information as an XML document.
+- As an option you can provide GitHub Token
+- The program will fetch information about the folder, create a list of files, and save that information as an XML document/s.
 
 # XML Document Structure
 The resulting XML document starts with `<mxlibrary>` and ends with `</mxlibrary>`. The contents of the document consist of an array of objects, each with the following properties:
 
-- data: the URL of the file
-- w: the width of the image
-- h: the height of the image
-- title: the name of the image
-- aspect: the aspect ratio of the image
+- data: the URL of the file (API property)
+- w: the width of the image (hardcoded 96px)
+- h: the height of the image (hardcoded 96px)
+- title: the name of the image  (API property with formater by custom code)
+- aspect: the aspect ratio of the image (hardcoded fixed)
 
 # Method for Transforming File Names
 The method TransformFileName takes a string (the file name) as input and returns a more user-friendly version of the name. The method adds spaces for camel case wording, removes the file extension from the string, replaces dashes with spaces, and removes repeatable patterns(TBD) to leave only the unique part of the name.
