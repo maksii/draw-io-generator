@@ -125,6 +125,6 @@ public class GithubHandler
     private static bool IsImage(string name)
     {
         var extension = name.Split('.').Last();
-        return extension == "svg" || extension == "png";
+        return extension == "svg" || extension == "png" || extension == "webp";
     }
 }
